@@ -18,7 +18,7 @@ In this challenge, you will write the logic for [THIS APP](https://advanced-apps
 - Visit your app by navigating Chrome to `http://localhost:3000`.
 - Run tests locally executing `npm test`.
 - Local test modules are `codegrade_mvp.test.js` and `Spinner.test.js`.
-
+-
 ## Studying the prototype
 
 ❗ Open the live prototype linked above and study its functionality using the following **Chrome Dev Tools**:
