@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import PT from 'prop-types'
+import './axios';
+import axios from 'axios';
 
 const initialFormValues = {
   username: '',
@@ -16,7 +18,7 @@ export default function LoginForm(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
-    // ✨ implement
+    axios()
   }
 
   const isDisabled = () => {
@@ -25,6 +27,8 @@ export default function LoginForm(props) {
     // trimmed password must be >= 8 for
     // the button to become enabled
   }
+
+  console.log(values);
 
   return (
     <form id="loginForm" onSubmit={onSubmit}>
