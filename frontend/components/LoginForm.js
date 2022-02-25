@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import PT from 'prop-types'
-import './axios';
-import axios from 'axios';
+import '../axios/index'
+ 
+
 
 const initialFormValues = {
   username: '',
@@ -9,7 +10,7 @@ const initialFormValues = {
 }
 export default function LoginForm(props) {
   const [values, setValues] = useState(initialFormValues)
-  // ✨ where are my props? Destructure them here
+  const { login } = props
 
   const onChange = evt => {
     const { id, value } = evt.target
@@ -18,32 +19,38 @@ export default function LoginForm(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
-    axios()
+    login(values)
   }
 
-  const isDisabled = () => {
+  const isDisabled = () => {  
     // ✨ implement
     // Trimmed username must be >= 3, and
     // trimmed password must be >= 8 for
     // the button to become enabled
+    if (values.username.trim()>=3 && values.password.trim()>=8){
+      return false
+    } else{
+      return true
+    }
+    
   }
 
-  console.log(values);
+ 
 
   return (
-    <form id="loginForm" onSubmit={onSubmit}>
+    <form id="loginForm" onSubmit={ onSubmit }>
       <h2>Login</h2>
       <input
-        maxLength={20}
-        value={values.username}
-        onChange={onChange}
+        maxLength={ 20 }
+        value={ values.username }
+        onChange={ onChange }
         placeholder="Enter username"
         id="username"
       />
       <input
         maxLength={20}
-        value={values.password}
-        onChange={onChange}
+        value={ values.password }
+        onChange={ onChange }
         placeholder="Enter password"
         id="password"
       />
