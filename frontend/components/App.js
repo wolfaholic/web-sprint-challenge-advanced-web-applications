@@ -23,7 +23,10 @@ export default function App() {
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate();
   const redirectToLogin = () => { navigate('/'); }
-  const redirectToArticles = () => { navigate("/articles"); }
+  const redirectToArticles = () => { 
+    navigate("/articles"); 
+    console.log("work!")
+  }
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -37,20 +40,20 @@ export default function App() {
     axiosWithAuth()
     .post(loginUrl, { username, password })
     .then((res) => {
-      localStorage.setItem('token', res.data.payload);
-      redirectToArticles();
+      console.log(res);
+      localStorage.setItem('token', res.data.token);
       setSpinnerOn(false);
+      redirectToArticles();
     })
     .catch((err) => {
-      console.log(err, "login")
+      console.log({ err })
     })
-
-  }
+  };
 
   const getArticles = () => {    
     setMessage('');
     setSpinnerOn(true);
-
+    console.log('getarticles');
     axiosWithAuth()
       .get(articlesUrl)
       .then(res => {
@@ -61,46 +64,51 @@ export default function App() {
       .catch(err => {
         if(err.response.status == 401) {
           redirectToLogin();
+          console.log({err})
         } else {
-          console.log(err)
+          console.log(err, "error message get")
         }
       })
   }
 
-  const postArticle = article => {
-     
-    // ✨ implement
-    // The flow is very similar to the `getArticles` function.
-    // You'll know what to do! Use log statements or breakpoints
-    // to inspect the response from the server.
+  const postArticle = (article) => {
     setMessage('');
     setSpinnerOn(true);
 
     axiosWithAuth()
-      .post(articlesUrl)
+      .post(articlesUrl, article)
       .then(res => {
         setArticles(res.data.articles)
         setSpinnerOn(false)
         setMessage(res.data.message)
     })
-      .catch(err => {
-          console.log(err, 'postarticle');
-        }
-      )
-      console.log(article)
-  }
-
+    .catch(err =>{
+      if (err.response.status == 401) {
+        navigate('/')
+      } else {
+        console.log(err, "error message post")
+      }
+    })
+  };
   const updateArticle = ({ article_id, article }) => {
-    axios
-      .put (`http://localhost:9000/api/articles/${article_id}`, updateArticle)
+    axiosWithAuth()
+      .put (`http://localhost:9000/api/${articlesUrl}/${article_id}`, article)
       .then (res => {
-        console.log(res);
+        setArticles(articles.map(post => {
+          return (post.article_id == article.article_id)? res.data.article: post
+        }))
       })
-      .catch (err => console.log(err));
+      .catch (err => console.log({err}));
   }
 
   const deleteArticle = article_id => {
-     
+    axiosWithAuth()
+    .delete (`http://localhost:9000/api/${articlesUrl}/${article_id}`)
+    .then(res =>{
+      setArticles(res.filter(post=>{
+        return (post.id != article_id)
+      }))
+    })
   }
 
   return (
@@ -117,8 +125,8 @@ export default function App() {
         </nav>
         <Routes>
           <Route path="/" element={<LoginForm login= { login } />} />
-          <Route path="articles" element={
-            <>
+          <Route path="/articles" element={
+            <> 
               <ArticleForm 
                 postArticle={ postArticle } 
                 updateArticle={ updateArticle }
