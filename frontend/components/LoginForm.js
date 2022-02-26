@@ -22,11 +22,11 @@ export default function LoginForm(props) {
   }
 
   const isDisabled = () => {  
-    // if (values.username.trim()>=3 && values.password.trim()>=8){
-    //   return false
-    // } else {
-    //   return true
-    // }
+    if (values.username.trim().length>=3 && values.password.trim().length>=8){
+      return false
+    } else {
+      return true
+    }
     
   }
 
