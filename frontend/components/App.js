@@ -7,7 +7,7 @@ import ArticleForm from './ArticleForm'
 import Spinner from './Spinner'
 // import axios from 'axios'
 import axiosWithAuth from '../axios'
-import axios from 'axios'
+
 // import { set } from 'msw/lib/types/context'
 
 const articlesUrl = 'http://localhost:9000/api/articles'
@@ -92,7 +92,7 @@ export default function App() {
   };
   const updateArticle = ({ article_id, article }) => {
     axiosWithAuth()
-      .put (`http://localhost:9000/api/${articlesUrl}/${article_id}`, article)
+      .put (`${articlesUrl}/${article_id}`, article)
       .then (res => {
         setArticles(articles.map(post => {
           return (post.article_id == article.article_id)? res.data.article: post
@@ -103,7 +103,7 @@ export default function App() {
 
   const deleteArticle = article_id => {
     axiosWithAuth()
-    .delete (`http://localhost:9000/api/${articlesUrl}/${article_id}`)
+    .delete (`${articlesUrl}/${article_id}`)
     .then(res =>{
       setArticles(res.filter(post=>{
         return (post.id != article_id)
@@ -131,6 +131,9 @@ export default function App() {
                 postArticle={ postArticle } 
                 updateArticle={ updateArticle }
                 setCurrentArticleId={ setCurrentArticleId } 
+                article={articles.find((art => {
+                  return art.article_id === currentArticleId
+                }))}
               />
               <Articles 
                 getArticles={ getArticles }

@@ -31,8 +31,17 @@ useEffect(() => {
   }
 
   const isDisabled = () => {
-   
+   if (values.text && values.topic && values.title){
+     return false
+   }else {
+     return true
+   }
     
+  }
+
+  const cancelEdit = () => {
+    setValues(initialFormValues)
+    setCurrentArticleId()
   }
   
 
@@ -63,7 +72,7 @@ useEffect(() => {
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={Function.prototype}>Cancel edit</button>
+        <button onClick={cancelEdit}>Cancel edit</button>
       </div>
     </form>
   )

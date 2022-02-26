@@ -31,8 +31,8 @@ if (!localStorage.getItem('token')){
                   <p>Topic: {art.topic}</p>
                 </div>
                 <div>
-                  <button disabled={true} onClick={()=> currentArticleId(art.article_id)}>Edit</button>
-                  <button disabled={true} onClick={()=> deleteArticle(art.article_id)}>Delete</button>
+                  <button onClick={()=> setCurrentArticleId(art.article_id)}>Edit</button>
+                  <button onClick={()=> deleteArticle(art.article_id)}>Delete</button>
                 </div>
               </div>
             )
