@@ -13,7 +13,7 @@ useEffect(() => {
  }else{
    setValues(initialFormValues)
  }
-  });
+  }, []);
 
   const onChange = evt => {
     const { id, value } = evt.target
