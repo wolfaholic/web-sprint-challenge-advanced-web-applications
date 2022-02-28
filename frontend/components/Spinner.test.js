@@ -11,22 +11,22 @@ test('sanity', () => {
 })
 
 
-test('Check to see that the spinner renders props true', async () => {
-  const spinnerValue = true
-  render(<Spinner on={spinnerValue}/>)
-  const spinner = screen.getByText('please wait...',{exact:false})
-  await waitFor(() => {
-    expect(spinner).toBeInTheDocument()
-  })
-})
+// test('Check to see that the spinner renders props true', async () => {
+//   const spinnerValue = true
+//   render(<Spinner on={spinnerValue}/>)
+//   const spinner = screen.getByText('please wait...',{exact:false})
+//   await waitFor(() => {
+//     expect(spinner).toBeInTheDocument()
+//   })
+// })
 
 
 
-test('Check to see that the spinner renders with a false props', async () => {
-  const spinnerValue = false
-  render(<Spinner on={spinnerValue}/>)
-  const spinner = screen.queryByText(/please wait.../i)
-  await waitFor(() => {
-    expect(spinner).toBeNull()
-  })
-})
+// test('Check to see that the spinner renders with a false props', async () => {
+//   const spinnerValue = false
+//   render(<Spinner on={spinnerValue}/>)
+//   const spinner = screen.queryByText(/please wait.../i)
+//   await waitFor(() => {
+//     expect(spinner).toBeNull()
+//   })
+// })

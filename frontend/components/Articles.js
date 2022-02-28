@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
 
 export default function Articles(props) {
-const { articles, getArticles, deleteArticle, setCurrentArticleId, currentArticleId} = props
+const { articles, getArticles, deleteArticle, setCurrentArticleId, } = props
  
 if (!localStorage.getItem('token')){
   return <Navigate to="/" />

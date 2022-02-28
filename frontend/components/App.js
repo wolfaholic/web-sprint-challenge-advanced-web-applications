@@ -78,9 +78,10 @@ export default function App() {
     axiosWithAuth()
       .post(articlesUrl, article)
       .then(res => {
-        setArticles(res.data.articles)
-        setSpinnerOn(false)
+        console.log(res, "post")
+        setArticles([...articles, res.data.article])
         setMessage(res.data.message)
+        setSpinnerOn(false)
     })
     .catch(err =>{
       if (err.response.status == 401) {
@@ -92,8 +93,7 @@ export default function App() {
   };
   const updateArticle = ({ article_id, article }) => {
     setSpinnerOn(true);
-    setMessage("")
-
+    setMessage("");
     axiosWithAuth().put(`${articlesUrl}/${article_id}`, article)
     .then(res => {
       setArticles(articles.map(art => {
@@ -116,8 +116,10 @@ export default function App() {
       }))
       setSpinnerOn(false)
       setMessage(res.data.message)
+      navigate("/articles")
     })
     .catch(err => console.log({err}))
+    
   }
 
   return (
@@ -133,7 +135,7 @@ export default function App() {
           <NavLink id="articlesScreen" to="/articles">Articles</NavLink>
         </nav>
         <Routes>
-          <Route path="/" element={<LoginForm login= { login } />} />
+          <Route path="/" element={<LoginForm login={ login } />} />
           <Route path="/articles" element={
             <> 
               <ArticleForm
@@ -146,10 +148,10 @@ export default function App() {
               />
                <Articles 
                 getArticles={getArticles}
-                articles ={articles}
+                articles={articles}
                 deleteArticle={deleteArticle}
                 setCurrentArticleId={setCurrentArticleId}
-                currentArticleId= {currentArticleId}
+                currentArticleId={currentArticleId}
                  />
             </>
           } />
