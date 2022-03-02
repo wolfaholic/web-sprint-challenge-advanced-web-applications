@@ -74,7 +74,6 @@ export default function App() {
   const postArticle = (article) => {
     setMessage('');
     setSpinnerOn(true);
-
     axiosWithAuth()
       .post(articlesUrl, article)
       .then(res => {
@@ -91,14 +90,16 @@ export default function App() {
       }
     })
   };
-  const updateArticle = ({ article_id, article }) => {
+
+  const updateArticle = ({ article_id }) => {
     setSpinnerOn(true);
     setMessage("");
-    axiosWithAuth().put(`${articlesUrl}/${article_id}`, article)
+    axiosWithAuth().put(`${articlesUrl}/${article_id}`)
     .then(res => {
       setArticles(articles.map(art => {
-        return (art.article_id === article.article_id) ? res.data.article : art
+        return (art.article_id === article_id) ? res.data.article : art
       }))
+      console.log("edit");
       setCurrentArticleId()
       setSpinnerOn(false)
       setMessage(res.data.message)
@@ -116,7 +117,7 @@ export default function App() {
       }))
       setSpinnerOn(false)
       setMessage(res.data.message)
-      navigate("/articles")
+      
     })
     .catch(err => console.log({err}))
     
@@ -142,9 +143,7 @@ export default function App() {
                 postArticle={postArticle}
                 updateArticle={updateArticle}
                 setCurrentArticleId={setCurrentArticleId}
-                article={articles.find((art) => {
-                  return art.article_id === currentArticleId
-                })}
+                articles={articles}
               />
                <Articles 
                 getArticles={getArticles}
